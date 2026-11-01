@@ -1,0 +1,120 @@
+{
+  "table": "closure",
+  "version": "1.2.0",
+  "owner": "A",
+  "path": "data/staging/closure.parquet",
+  "granularity": "registro de horário × BU × seção × turno (todas as emissões preservadas)",
+  "primary_key": [
+    "ano",
+    "nr_turno",
+    "sg_uf",
+    "cd_municipio_tse",
+    "nr_zona",
+    "nr_secao",
+    "id_registro"
+  ],
+  "description": "Cada linha tem UMA semântica. Recebimento no TSE e totalização (detalhe de apuração: DT_RECEBIMENTO_BU_HOR_TSE, DT_PRIM_TOT_PARCIAL_HOR_TSE) não são encerramento e não o substituem. Fuso só por documentação do campo, nunca pela UF. v1.1: DT_ABERTURA, DT_ENCERRAMENTO, DT_EMISSAO_BU e DT_BU_RECEBIDO do BU web viram linhas separadas; sem fuso documentado, fuso_documentado fica nulo e motivo_ausencia = FUSO_NAO_DOCUMENTADO, com ts_bruto preservado.",
+  "columns": [
+    {
+      "ref": "ano"
+    },
+    {
+      "ref": "nr_turno"
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "ref": "nr_secao"
+    },
+    {
+      "name": "id_registro",
+      "type": "string",
+      "nullable": false,
+      "description": "Identificador estável do registro (ex.: hash do BU + campo)."
+    },
+    {
+      "name": "id_bu",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "id_urna",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "semantica",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "ABERTURA_URNA",
+        "ENCERRAMENTO_URNA",
+        "ULTIMO_VOTO",
+        "EMISSAO_BU",
+        "RECEBIMENTO_BU_TSE",
+        "PRIMEIRA_TOTALIZACAO_TSE",
+        "DESCONHECIDA"
+      ]
+    },
+    {
+      "name": "ts_bruto",
+      "type": "string",
+      "nullable": true,
+      "description": "Texto exatamente como na fonte."
+    },
+    {
+      "name": "fuso_documentado",
+      "type": "string",
+      "nullable": true,
+      "description": "IANA tz documentado para o campo (ex.: America/Sao_Paulo, America/Rio_Branco)."
+    },
+    {
+      "name": "fonte_fuso",
+      "type": "string",
+      "nullable": true,
+      "description": "Documento/URL que estabelece o fuso."
+    },
+    {
+      "name": "ts_brasilia",
+      "type": "timestamp_tz",
+      "nullable": true,
+      "description": "Normalizado para America/Sao_Paulo; nulo se fuso não documentado ou bruto inválido."
+    },
+    {
+      "name": "motivo_ausencia",
+      "type": "string",
+      "nullable": true,
+      "enum": [
+        "SEM_REGISTRO",
+        "BRUTO_INVALIDO",
+        "FUSO_NAO_DOCUMENTADO",
+        "NAO_APLICAVEL"
+      ]
+    },
+    {
+      "name": "flag_reemissao",
+      "type": "bool",
+      "nullable": false
+    },
+    {
+      "name": "flag_substituicao_urna",
+      "type": "bool",
+      "nullable": false
+    },
+    {
+      "name": "flag_anomalia",
+      "type": "bool",
+      "nullable": false
+    },
+    {
+      "ref": "source_id"
+    }
+  ]
+}

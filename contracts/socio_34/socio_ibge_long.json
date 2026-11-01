@@ -1,0 +1,137 @@
+{
+  "table": "socio_ibge_long",
+  "version": "1.0.0",
+  "owner": "frente A (handoff 34 — IBGE renda/trabalho/urbanização)",
+  "path": "data/staging/socio_ibge/socio_ibge_long.parquet",
+  "granularity": "UF × município IBGE × indicador × período de referência (formato longo do plano 33)",
+  "primary_key": [
+    "sg_uf",
+    "cd_municipio_ibge",
+    "indicador",
+    "periodo_referencia"
+  ],
+  "description": "Contrato longo comum da extensão socioeconômica nacional (plano 33). Uma linha por município e indicador do Censo Demográfico 2022, com valor, unidade, numerador, denominador, universo, período, motivo de ausência, símbolo IBGE preservado, source_id (SHA-256 do bruto) e versão da transformação. Componentes não aplicáveis ficam nulos; ausência nunca vira zero. Renda/trabalho são da Amostra; população é universo (tabela 9923). Contexto do município, não característica de eleitores; nenhuma associação eleitoral é produzida por esta frente. A pasta contracts/v1 pertence a outra frente e não é alterada.",
+  "columns": [
+    {
+      "name": "sg_uf",
+      "type": "string",
+      "nullable": false,
+      "pattern": "^[A-Z]{2}$",
+      "description": "Sigla da UF derivada do lookup oficial municipio_tse_ibge (ou prefixo IBGE do código municipal quando não há correspondência)."
+    },
+    {
+      "name": "cd_municipio_ibge",
+      "type": "string",
+      "nullable": false,
+      "pattern": "^[0-9]{7}$",
+      "description": "Código IBGE do município (7 dígitos, zeros à esquerda)."
+    },
+    {
+      "name": "cd_municipio_tse",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9]{5}$",
+      "description": "Código TSE derivado do lookup validado; nulo quando o município IBGE não tem correspondência (reportado em relatorio_cobertura_socio_ibge.json, nunca excluído)."
+    },
+    {
+      "name": "indicador",
+      "type": "string",
+      "nullable": false,
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Um dos indicadores de dicionario_socio_ibge.csv; componentes de reconciliação não publicados aqui."
+    },
+    {
+      "name": "periodo_referencia",
+      "type": "string",
+      "nullable": false,
+      "pattern": "^[0-9]{4}$",
+      "description": "Período de referência da fonte (Censo Demográfico 2022)."
+    },
+    {
+      "name": "valor",
+      "type": "float64",
+      "nullable": true,
+      "description": "Valor do indicador no município. Nulo = ausente com motivo em motivo_ausencia; nunca zero imputado."
+    },
+    {
+      "name": "unidade",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "numerador",
+      "type": "float64",
+      "nullable": true,
+      "description": "Numerador da razão (ou o próprio valor nas somas); nulo quando não aplicável."
+    },
+    {
+      "name": "denominador",
+      "type": "float64",
+      "nullable": true,
+      "description": "Denominador compatível da razão; nulo quando não aplicável. Denominador zero produz valor ausente (DENOMINADOR_ZERO)."
+    },
+    {
+      "name": "universo",
+      "type": "string",
+      "nullable": false,
+      "description": "Universo/população de referência da fonte, texto explícito."
+    },
+    {
+      "name": "motivo_ausencia",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[A-Za-z0-9_:]+$",
+      "description": "Motivo quando valor é nulo: COMPONENTE_AUSENTE:<componente>:<motivo>, DENOMINADOR_ZERO, COMPONENTE_NAO_ENCONTRADO, PERIODO_AUSENTE, FONTE_NAO_OBTIDA:<tabela>, Z_MENOR_QUE_MEIA_UNIDADE, X_SUPRIMIDO, NAO_APLICAVEL, NAO_DISPONIVEL ou FALHA_CONVERSAO."
+    },
+    {
+      "name": "simbolo_ibge",
+      "type": "string",
+      "nullable": true,
+      "description": "Símbolo SIDRA preservado (z, X, .., ...); o símbolo '-' é zero observado e vira valor 0.0 sem simbolo_ibge."
+    },
+    {
+      "name": "amostral",
+      "type": "bool",
+      "nullable": false,
+      "description": "True para estimativas da Amostra do Censo 2022 (10295/10296/6580); False para universo (9923)."
+    },
+    {
+      "name": "precisao_disponivel",
+      "type": "string",
+      "nullable": false,
+      "description": "Precisão publicada/consultada: erro padrão não publicado pela API SIDRA para as tabelas amostrais em 28/10/2026."
+    },
+    {
+      "name": "limitacao",
+      "type": "string",
+      "nullable": false,
+      "description": "Limitação de interpretação do indicador (ex.: mediana municipal não agrega; erro relativo elevado em municípios pequenos)."
+    },
+    {
+      "name": "fonte_tabela",
+      "type": "int16",
+      "nullable": false,
+      "description": "ID da tabela SIDRA (10295, 10296, 6580 ou 9923)."
+    },
+    {
+      "name": "fonte_url",
+      "type": "string",
+      "nullable": false,
+      "pattern": "https?://\\S+",
+      "description": "URL oficial exata da consulta da API v3 do IBGE."
+    },
+    {
+      "name": "source_id",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 do JSON bruto registrado em data/raw/socio_ibge/manifest.json (comprova integridade local, não autenticidade da origem). Nulo apenas quando a tabela daquela UF não foi obtida nesta execução (motivo FONTE_NAO_OBTIDA)."
+    },
+    {
+      "name": "versao_transformacao",
+      "type": "string",
+      "nullable": false,
+      "description": "Versão da transformação que produziu a linha (ex.: socio_ibge/1.0.0)."
+    }
+  ]
+}

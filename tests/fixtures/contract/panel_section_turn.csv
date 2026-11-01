@@ -1,0 +1,13 @@
+nr_turno,sg_uf,cd_municipio_tse,nr_zona,nr_secao,qt_aptos,qt_comparecimento,qt_abstencoes,qt_votos_nominais,qt_votos_legenda,qt_votos_brancos,qt_votos_nulos,nr_local_votacao,st_secao_instalada,st_secao_anulada
+1,AC,01007,0001,0001,100,80,20,70,0,4,6,1015,True,False
+2,AC,01007,0001,0001,100,82,18,76,0,2,4,1015,True,False
+1,AC,01007,0001,0002,150,120,30,110,0,5,5,1015,True,False
+2,AC,01007,0001,0002,90,70,20,66,0,2,2,1023,True,False
+2,AC,01007,0001,0003,60,50,10,48,0,1,1,1023,True,False
+1,AC,01007,0001,0004,50,40,10,36,0,2,2,1015,True,False
+1,AC,01007,0001,0005,80,60,20,56,0,2,2,1015,True,False
+2,AC,01007,0001,0005,80,60,25,58,0,1,1,1015,True,False
+1,AC,01007,0001,0006,40,0,0,0,0,0,0,1015,False,False
+2,AC,01007,0001,0006,40,30,10,28,0,1,1,1015,True,False
+1,SP,71072,0001,0001,200,150,50,140,0,4,6,1104,True,False
+2,SP,71072,0001,0001,200,160,40,150,0,4,6,1104,True,False

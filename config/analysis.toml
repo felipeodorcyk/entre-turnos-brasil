@@ -1,0 +1,182 @@
+# Parâmetros analíticos pré-registrados — contrato v1 (26/10/2026).
+# Definidos ANTES de qualquer resultado. Alteração exige nova versão,
+# justificativa em docs/methodology/decisions.md e teste de compatibilidade.
+
+contract_version = "1.0.0"
+
+[election]
+ano = 2026
+cd_cargo_presidente = 1
+# Números de urna das candidaturas finalistas; a associação definitiva
+# usa SQ_CANDIDATO do cadastro oficial de 2026 (consulta_cand), nunca o de 2022.
+nr_votavel_lula = 13
+nr_votavel_flavio = 22
+nr_votavel_branco = 95
+nr_votavel_nulo = 96
+data_t1 = "2026-10-04"
+data_t2 = "2026-10-25"
+# Votáveis cujos votos a totalização oficial classifica como "Nulo técnico"
+# (handoff 17). Fonte: Relatório Resultado da Totalização T1, Anexo III/IV, cargo
+# Presidente, AC/RS/MG — "28 - LEONARDO ALVES DE ... Renúncia, Nulo técnico";
+# votos no 28 = nulos técnicos do relatório (AC 23, RS 253, MG 561). Saem dos
+# válidos e entram nos nulos. Lista por turno; conferir de novo em cada turno/UF.
+[election.nulo_tecnico]
+t1 = [28]
+t2 = []
+
+[closure]
+# Limite oficial de votação: 17h no horário de Brasília em todo o território
+# (unificação adotada pelo TSE desde 2022). A tolerância de 15 min cobre o
+# processamento de encerramento após o último eleitor; é provisória e
+# acompanhada das sensibilidades abaixo. Intervalos semiabertos [início, fim).
+timezone_referencia = "America/Sao_Paulo"
+limite_oficial = "17:00:00"
+faixas = [
+    { nome = "ANTES_17H",      inicio = "00:00:00", fim = "17:00:00" },
+    { nome = "17H00_17H15",    inicio = "17:00:00", fim = "17:15:00" },
+    { nome = "17H15_18H",      inicio = "17:15:00", fim = "18:00:00" },
+    { nome = "18H_19H",        inicio = "18:00:00", fim = "19:00:00" },
+    { nome = "A_PARTIR_19H",   inicio = "19:00:00", fim = "24:00:00" },
+]
+# ANTES_17H recebe auditoria própria; não entra como grupo de comparação.
+faixas_auditoria = ["ANTES_17H"]
+classe_invalida = "INVALIDO"
+semanticas_elegiveis = ["ENCERRAMENTO_URNA"]
+sensibilidade_tolerancias_min = [5, 30]
+# Regra de suporte: uma comparação entre faixas só é estimada se cada faixa
+# tiver ao menos este número de seções e de municípios distintos.
+suporte_min_secoes = 30
+suporte_min_municipios = 10
+
+[panel]
+# Unidade preferida: seção. Agregações que mudam entre turnos são resolvidas
+# pelo componente conexo de seções de origem e apuradoras (sem redistribuir votos).
+unidade_preferida = "SECAO"
+sensibilidades_agregacao = ["LOCAL", "MUNICIPIO"]
+
+[identification]
+# Largura média (proporção da origem) a partir da qual um limite de célula é
+# rotulado como pouco informativo.
+largura_pouco_informativa = 0.5
+
+[ecological]
+lambdas_regularizacao = [0.0, 0.01, 0.1, 1.0]
+bootstrap_reps = 200
+bootstrap_seed = 20261026
+# Número de condição de X'WX acima do qual a matriz de taxas não é publicada.
+condicao_maxima = 1.0e8
+
+[inference]
+nivel_confianca = 0.95
+# Abaixo deste número de grupos, os erros agrupados recebem aviso e devem ser
+# acompanhados de wild cluster bootstrap.
+poucos_grupos = 42
+wild_bootstrap_reps = 999
+seed = 20261026
+
+# --- Acréscimos de 26/10/2026 (orquestração `analyze`), antes de dados reais. ---
+
+[universe]
+# Exterior entra na reconciliação; análises de contexto territorial o separam.
+uf_exterior = "ZZ"
+
+[flows]
+# Candidatos do T1 com participação nacional nos válidos >= limiar ficam
+# separados; os demais viram OUTROS. Lula e Flávio sempre separados.
+limiar_candidato_separado = 0.02
+sensibilidade_limiares = [0.05]
+# O3: rotatividade bruta não observada além do saldo de aptos, como fração dos
+# aptos do T1 (cenários de sensibilidade; o principal é 0 = rotatividade mínima).
+rotatividade_sensibilidade = [0.005, 0.02]
+# Ajuste por estrato (UF) só com ao menos este número de unidades.
+estrato_min_unidades = 200
+residuo_maximo_publicacao = 0.01
+
+[associations]
+referencia = "ABSTENCAO"
+desfechos = ["delta_share_lula_validos", "delta_margem_lula_flavio_validos",
+             "delta_comparecimento_aptos"]
+# Heterogeneidade por UF só com ao menos este número de municípios.
+min_municipios_uf = 10
+
+[closure_tz]
+# Q1 (v1.1): DT_ABERTURA/DT_ENCERRAMENTO/DT_EMISSAO_BU sem fuso documentado.
+# Premissa a confirmar por A (A-Q1b): votação 8h-17h no horário de Brasília em
+# todo o país. Deslocamento inteiro (h) somado ao relógio bruto para obter
+# Brasília, inferido por MUNICÍPIO e turno a partir só da abertura; o
+# encerramento não entra na inferência. Solução precisa ser única.
+candidatos_h = [-1, 0, 1, 2]  # Noronha, Brasília, Amazonas, Acre
+janela_mediana = ["08:00:00", "09:00:00"]
+janela_ampla = ["07:30:00", "10:00:00"]
+fracao_min_janela_ampla = 0.9
+semanticas_convertidas = ["ABERTURA_URNA", "ENCERRAMENTO_URNA", "EMISSAO_BU"]
+# Aceite do marco M3 exige a premissa legal confirmada por documento (A-Q1b).
+premissa_horario_unico_confirmada = true
+fonte_premissa = "Res. TSE 23.751/2026: votação das 8h às 17h no horário de Brasília; locais com fuso diferente ajustam o horário local (reports/analysis/PROVA_CONCEITO_HORARIOS.md)"
+# O-R3: a norma de horário não prova o relógio nem a semântica de DT_ABERTURA.
+# A inferência só substitui o resultado principal se AMBAS as confirmações
+# existirem com fonte; caso contrário é cenário exploratório (EXPLORATORIO).
+semantica_relogio_validada = true
+# Handoff 29: relógio do BU em hora local. (1) BU do portal = BU web em 60/60 seções (1º turno);
+# (2) deslocamento inferido pela abertura = fuso legal (Lei 12.876/2013; Dec. 2.784/1913) em
+# 5.569 de 5.571 municípios no 1º turno (2 sem solução única ficam sem conversão); no AM, os 11
+# municípios inferidos em UTC−5 coincidem com a lista independente da Agência Tatu.
+fonte_validacao_relogio = "reports/analysis/evidencias_horarios/validacao_fuso_municipios.csv; evidencias_horarios/validacao_t1.txt"
+
+[profile]
+# O4: perfil CADASTRAL dos aptos (não dos votantes), referido ao arquivo de
+# geração 14/07/2026. Códigos conferidos em perfil_eleitor_secao_2026_RS.csv
+# (26/10/2026, agregados). Códigos fora das listas => categoria "desconhecido"
+# (mantida como categoria própria, nunca descartada). Uma referência por
+# dimensão é omitida nos modelos (restrição composicional).
+ano_referencia = 2026
+divergencia_max_aptos = 0.05
+[profile.grupos.FAIXA_ETARIA]
+"16_24" = ["1600", "1700", "1800", "1900", "2000", "2124"]
+"25_44" = ["2529", "3034", "3539", "4044"]
+"45_59" = ["4549", "5054", "5559"]
+"60_mais" = ["6064", "6569", "7074", "7579", "8084", "8589", "9094", "9599", "9999"]
+[profile.grupos.GRAU_ESCOLARIDADE]
+"ate_fund_incompleto" = ["1", "2", "3"]
+"fund_completo_medio_incompleto" = ["4", "5"]
+"medio_completo_sup_incompleto" = ["6", "7"]
+"superior_completo" = ["8"]
+[profile.grupos.GENERO]
+"feminino" = ["4"]
+"masculino" = ["2"]
+[profile.referencias]
+FAIXA_ETARIA = "25_44"
+GRAU_ESCOLARIDADE = "medio_completo_sup_incompleto"
+GENERO = "masculino"
+
+[context]
+# O-R6, revisto em 26/10/2026 (handoff 17) após consultar os metadados da API
+# SIDRA: a tabela 5938 (PIB dos Municípios) não traz PIB per capita. Variáveis
+# BRUTAS em municipal_context (sem mudança de contrato), todas de 2022:
+variaveis = ["populacao_residente", "area_territorial_km2", "pib_mil_reais"]
+[context.fontes]
+populacao_residente = "IBGE SIDRA, tabela 4714 (Censo Demográfico 2022), variável 93 - População residente; pessoas; 2022"
+area_territorial_km2 = "IBGE SIDRA, tabela 4714 (Censo Demográfico 2022), variável 6318 - Área da unidade territorial; km²; 2022"
+pib_mil_reais = "IBGE SIDRA, tabela 5938 (PIB dos Municípios, ref. 2010), variável 37 - PIB a preços correntes; mil reais; 2022"
+[context.derivadas]
+# nome = [operação, variáveis]. log natural; razão só com denominador > 0.
+# log_pib_por_habitante: PIB 2022 (mil R$) / população do Censo 2022, mesmo ano;
+# indicador derivado por B, NÃO é o "PIB per capita" oficial (que usa estimativa de população).
+log_populacao = ["log", "populacao_residente"]
+log_densidade = ["log_razao", "populacao_residente", "area_territorial_km2"]
+log_pib_por_habitante = ["log_razao", "pib_mil_reais", "populacao_residente"]
+
+[socio]
+# Handoff 37 (docs/methodology/PLANO_ESTATISTICO_37.md). Referências fixadas antes de estimar associações.
+# Censo 2022 (renda, trabalho, urbanização) é a única referência disponível desses indicadores.
+rais_ano = 2025                 # D37-T2: estoque de 31/12/2025; 2023 = auditoria RS
+rais_anos_auditoria = [2023]
+pbf_competencia = "202608"      # D37-T3: última folha antes do 1º turno; 202406 = auditoria RS
+pbf_competencias_auditoria = ["202406"]
+entorno_raio_m = 1000           # D37-E1
+# Versão final (decisão do usuário em 29/10/2026, handoff 40): raio único de 1 km. As sensibilidades de
+# 500 m e 3 km (revisões 38–39) ficam só no histórico do Git; nenhum raio alternativo entra na receita final.
+entorno_sensibilidades_m = []
+entorno_cobertura_area_min = 0.90   # D37-E2
+entorno_cobertura_renda_min = 0.75
+entorno_tolerancia_municipio_m = 100.0  # D37-E3

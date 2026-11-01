@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "br2026"
+version = "0.1.0"
+description = "Análise descritiva e científica da eleição presidencial brasileira de 2026 (Lula × Flávio Bolsonaro, dois turnos)."
+requires-python = ">=3.13,<3.14"
+# Versões exatas; o ambiente completo está em requirements.lock.
+dependencies = [
+    "numpy==2.5.4",
+    "scipy==1.18.1",
+    "pandas==3.1.0",
+    "pyarrow==26.0.0",
+    "duckdb==2.0.0",
+    "jsonschema==4.26.0",
+    "matplotlib==3.11.2",
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[project.scripts]
+br2026 = "br2026.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+br2026 = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not integration'"
+markers = [
+    "integration: usa dados oficiais reais em data/; não roda na suíte rápida",
+    "m1: marco 1 - engenharia eleitoral do 1º turno (fontes, contrato, contabilidade, cobertura)",
+    "m2: marco 2 - painel entre turnos (dois turnos e correspondências efetivadas)",
+    "m3: marco 3 - horários (semântica e normalização temporal defensáveis)",
+    "m4: marco 4 - entrega nacional (28 unidades, reconciliação, escopo)",
+]

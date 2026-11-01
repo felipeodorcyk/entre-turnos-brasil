@@ -1,0 +1,14 @@
+node_modules/
+.venv/
+dist/
+artifacts/
+__pycache__/
+*.pyc
+.env*
+*.key
+*.pem
+data/raw/
+data/staging/
+data/analytics/
+.pytest_cache/
+*.egg-info/

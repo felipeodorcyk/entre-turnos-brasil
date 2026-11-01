@@ -1,0 +1,85 @@
+{
+  "table": "profiles",
+  "version": "1.2.0",
+  "owner": "A",
+  "path": "data/staging/profiles.parquet",
+  "granularity": "seção × ano de referência × dimensão × categoria (marginais, formato longo)",
+  "primary_key": [
+    "ano_referencia",
+    "sg_uf",
+    "cd_municipio_tse",
+    "nr_zona",
+    "nr_secao",
+    "dimensao",
+    "cd_categoria"
+  ],
+  "description": "Perfil cadastral dos APTOS, não dos votantes. Cada dimensão é uma marginal separada: a soma por dimensão fecha no total da seção e as dimensões não são somadas entre si. Categorias desconhecidas (-1, NÃO INFORMADO) são preservadas.",
+  "columns": [
+    {
+      "name": "ano_referencia",
+      "type": "int16",
+      "nullable": false
+    },
+    {
+      "name": "dt_geracao",
+      "type": "date",
+      "nullable": false,
+      "description": "DT_GERACAO: data de GERAÇÃO do arquivo. Não é data de referência do cadastro."
+    },
+    {
+      "name": "dt_referencia_cadastro",
+      "type": "date",
+      "nullable": true,
+      "description": "Data de referência do cadastro, só se documentada; nula caso contrário (v1.1). Nunca copiar dt_geracao."
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "ref": "nr_secao"
+    },
+    {
+      "name": "dimensao",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "GENERO",
+        "FAIXA_ETARIA",
+        "GRAU_ESCOLARIDADE",
+        "ESTADO_CIVIL",
+        "RACA_COR"
+      ]
+    },
+    {
+      "name": "cd_categoria",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "ds_categoria",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "flag_desconhecido",
+      "type": "bool",
+      "nullable": false
+    },
+    {
+      "name": "qt_eleitores",
+      "type": "int64",
+      "nullable": false,
+      "min": 0,
+      "unit": "eleitores cadastrados"
+    },
+    {
+      "ref": "source_id"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "table": "panel",
+  "version": "1.2.0",
+  "owner": "B",
+  "path": "data/analytics/panel.parquet",
+  "granularity": "unidade comparável (componente conexo de seções de origem e apuradoras nos dois turnos), uma linha com colunas _t1 e _t2",
+  "primary_key": [
+    "id_unidade"
+  ],
+  "description": "Produzido por br2026.panel. Inclui TODAS as unidades; exclusões ficam com motivo e entram na cobertura. Incluídas + excluídas reconciliam exatamente com os totais completos por turno.",
+  "columns": [
+    {
+      "name": "id_unidade",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "name": "n_secoes_origem",
+      "type": "int32",
+      "nullable": false,
+      "min": 1
+    },
+    {
+      "name": "tipo_unidade",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "SECAO",
+        "AGREGADO_SECOES"
+      ]
+    },
+    {
+      "name": "status_painel",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "PAREADA",
+        "EXCLUIDA_AMBIGUA",
+        "EXCLUIDA_CORRESPONDENCIA_NAO_EFETIVADA",
+        "EXCLUIDA_AUSENTE_T1",
+        "EXCLUIDA_AUSENTE_T2",
+        "EXCLUIDA_NAO_APURADA",
+        "EXCLUIDA_CONTABILIDADE"
+      ]
+    },
+    {
+      "name": "flag_aptos_divergente",
+      "type": "bool",
+      "nullable": true
+    },
+    {
+      "name": "nr_local_votacao_t1",
+      "type": "string",
+      "nullable": true,
+      "description": "Local(is) efetivo(s) no T1; vários separados por |."
+    },
+    {
+      "name": "nr_local_votacao_t2",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "flag_local_alterado",
+      "type": "bool",
+      "nullable": true
+    },
+    {
+      "name": "qt_aptos_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_aptos_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_comparecimento_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_comparecimento_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_abstencoes_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_abstencoes_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_votos_validos_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_votos_validos_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_votos_brancos_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_votos_brancos_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_votos_nulos_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_votos_nulos_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_lula_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_lula_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_flavio_t1",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "qt_flavio_t2",
+      "type": "int64",
+      "nullable": true,
+      "min": 0
+    },
+    {
+      "name": "contract_version",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "1.1.0",
+        "1.2.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "_nota": "Valores calculados à mão a partir dos CSVs desta pasta, sem usar o código sob teste. Seções 0002+0003: agregadas no T1 (0003 em 0002), separadas no T2 -> uma unidade. 0004 sem apuração no T2. 0005 falha a identidade de aptos no T2 (60+25 != 80). 0006 não instalada no T1. SP/0001 tem o mesmo número de zona/seção de AC/0001 e não pode colidir.",
+  "unidades": {
+    "AC-01007-0001-0001": {"status": "PAREADA", "tipo": "SECAO", "n": 1},
+    "AC-01007-0001-0002": {"status": "PAREADA", "tipo": "AGREGADO_SECOES", "n": 2,
+                           "qt_aptos_t1": 150, "qt_aptos_t2": 150, "qt_votos_validos_t2": 114,
+                           "qt_lula_t2": 50, "qt_flavio_t2": 64, "flag_local_alterado": true},
+    "AC-01007-0001-0004": {"status": "EXCLUIDA_AUSENTE_T2", "tipo": "SECAO", "n": 1},
+    "AC-01007-0001-0005": {"status": "EXCLUIDA_CONTABILIDADE", "tipo": "SECAO", "n": 1},
+    "AC-01007-0001-0006": {"status": "EXCLUIDA_NAO_APURADA", "tipo": "SECAO", "n": 1},
+    "SP-71072-0001-0001": {"status": "PAREADA", "tipo": "SECAO", "n": 1}
+  },
+  "totais_completos": {"qt_lula_t1": 190, "qt_lula_t2": 204, "qt_aptos_t1": 620, "qt_aptos_t2": 570},
+  "pareadas": {"qt_lula_t1": 140, "qt_lula_t2": 160, "qt_flavio_t1": 115, "qt_flavio_t2": 180,
+               "qt_votos_validos_t1": 320, "qt_votos_validos_t2": 340},
+  "metricas_pareadas": {
+    "share_lula_validos_t1": 0.4375, "share_lula_validos_t2": 0.47058823529411764,
+    "margem_lula_flavio_validos_t1": 0.078125, "margem_lula_flavio_validos_t2": -0.058823529411764705,
+    "delta_qt_lula": 20, "delta_qt_flavio": 65, "delta_margem_lula_flavio_votos": -45
+  }
+}

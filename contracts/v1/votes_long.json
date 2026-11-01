@@ -1,0 +1,78 @@
+{
+  "table": "votes_long",
+  "version": "1.2.0",
+  "owner": "A",
+  "path": "data/staging/votes_long.parquet",
+  "granularity": "seção apuradora × turno × cargo × votável",
+  "primary_key": [
+    "ano",
+    "cd_eleicao",
+    "nr_turno",
+    "sg_uf",
+    "cd_municipio_tse",
+    "nr_zona",
+    "nr_secao",
+    "cd_cargo",
+    "nr_votavel"
+  ],
+  "columns": [
+    {
+      "ref": "ano"
+    },
+    {
+      "ref": "cd_eleicao"
+    },
+    {
+      "ref": "nr_turno"
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "ref": "nr_secao"
+    },
+    {
+      "ref": "cd_cargo"
+    },
+    {
+      "name": "nr_votavel",
+      "type": "int32",
+      "nullable": false,
+      "description": "NR_VOTAVEL; 95 branco, 96 nulo."
+    },
+    {
+      "name": "tipo_votavel",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "NOMINAL",
+        "LEGENDA",
+        "BRANCO",
+        "NULO"
+      ]
+    },
+    {
+      "name": "sq_candidato",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9]+$",
+      "description": "SQ_CANDIDATO de 2026 via cadastro oficial; nulo para branco, nulo e legenda."
+    },
+    {
+      "name": "qt_votos",
+      "type": "int64",
+      "nullable": false,
+      "min": 0,
+      "unit": "votos"
+    },
+    {
+      "ref": "source_id"
+    }
+  ]
+}

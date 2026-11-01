@@ -1,0 +1,12 @@
+import {it,expect} from "vitest";
+import {geographicRows,nationalContribution} from "./geography";
+import {aggregate} from "./query";
+import {readFileSync} from "node:fs";
+import type {Municipio,Nacional} from "../types";
+const read=(p:string)=>JSON.parse(readFileSync(p,"utf8"));const id=read("public/release/current.json").release_id;
+const table=read(`public/release/${id}/municipios.json`);const rows:Municipio[]=table.rows.map((r:unknown[])=>Object.fromEntries(table.fields.map((k:string,i:number)=>[k,r[i]])));
+const n:Nacional=read(`public/release/${id}/nacional.json`);
+it("regional and state values reconcile without averaging rates",()=>{for(const level of ["regional","estadual"] as const){const result=geographicRows(rows,rows,level);const unique=[...new Map(result.map(r=>[r.nome,r])).values()];expect(aggregate(unique).counts).toEqual(aggregate(rows).counts);}});
+it("filtered aggregate paints its territory with only selected votes",()=>{const chosen=rows.slice(0,1);const painted=geographicRows(chosen,rows,"estadual");expect(painted.every(r=>r.sg_uf===chosen[0].sg_uf)).toBe(true);expect(painted.every(r=>r.qt_lula_t2===chosen[0].qt_lula_t2)).toBe(true);expect(geographicRows([],rows,"regional")).toEqual([]);});
+it("national contributions are additive across disjoint groups",()=>{const a=aggregate(rows.slice(0,2000)),b=aggregate(rows.slice(2000));expect(nationalContribution(a.counts,n.totais)!+nationalContribution(b.counts,n.totais)!).toBeCloseTo(nationalContribution(aggregate(rows).counts,n.totais)!,10);});
+it("contribution matches independent denominators and handles zero",()=>{const c=aggregate(rows.slice(0,1)).counts;const v1=n.totais.t1.comparecimento-n.totais.t1.votos_brancos-n.totais.t1.votos_nulos;const v2=n.totais.t2.comparecimento-n.totais.t2.votos_brancos-n.totais.t2.votos_nulos;expect(nationalContribution(c,n.totais)).toBeCloseTo(100*((c.qt_lula_t2-c.qt_flavio_t2)/v2-(c.qt_lula_t1-c.qt_flavio_t1)/v1),12);expect(nationalContribution(c,{...n.totais,t1:{...n.totais.t1,comparecimento:0,votos_brancos:0,votos_nulos:0}})).toBeNull();});

@@ -1,0 +1,143 @@
+{
+  "table": "section_turn",
+  "version": "1.2.0",
+  "owner": "A",
+  "path": "data/staging/section_turn.parquet",
+  "granularity": "seção apuradora × turno × cargo (uma linha; totais nunca repetidos por candidato)",
+  "primary_key": [
+    "ano",
+    "cd_eleicao",
+    "nr_turno",
+    "sg_uf",
+    "cd_municipio_tse",
+    "nr_zona",
+    "nr_secao",
+    "cd_cargo"
+  ],
+  "accounting": {
+    "aptos": "qt_aptos = qt_comparecimento + qt_abstencoes",
+    "comparecimento": "qt_comparecimento = qt_votos_nominais + qt_votos_legenda + qt_votos_brancos + qt_votos_nulos",
+    "validos": "qt_votos_validos = qt_votos_nominais + qt_votos_legenda",
+    "nota": "Verificado em 26/10/2026 no detalhe T1 2026 BR (cargo 1, 499.248 linhas): a identidade de comparecimento fecha em todas; a de aptos falha em 41, mesmo número de linhas com origem Totalização e seção não instalada. QT_VOTOS_ANULADOS_APU_SEP somou 0, de modo que seu papel na identidade não pôde ser discriminado (pergunta Q2 para A). Linhas que violam a identidade são mantidas e marcadas, nunca removidas.",
+    "nota_v1_1": "Q2: com qt_votos_anulados_apu_sep > 0 e sem regra documentada, flag_identidade_comparecimento fica nula (indeterminada) e o painel exclui a unidade (EXCLUIDA_CONTABILIDADE). Q3: seções não instaladas mantêm flags calculadas; o painel as classifica antes como EXCLUIDA_NAO_APURADA."
+  },
+  "columns": [
+    {
+      "ref": "ano"
+    },
+    {
+      "ref": "cd_eleicao"
+    },
+    {
+      "ref": "nr_turno"
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "ref": "nr_secao"
+    },
+    {
+      "ref": "cd_cargo"
+    },
+    {
+      "name": "qt_aptos",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "eleitores aptos"
+    },
+    {
+      "name": "qt_comparecimento",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "eleitores"
+    },
+    {
+      "name": "qt_abstencoes",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "eleitores"
+    },
+    {
+      "name": "qt_votos_nominais",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "votos"
+    },
+    {
+      "name": "qt_votos_legenda",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "votos"
+    },
+    {
+      "name": "qt_votos_brancos",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "votos"
+    },
+    {
+      "name": "qt_votos_nulos",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "votos"
+    },
+    {
+      "name": "qt_votos_anulados_apu_sep",
+      "type": "int64",
+      "nullable": true,
+      "min": 0,
+      "unit": "votos"
+    },
+    {
+      "name": "nr_local_votacao",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9]{4}$",
+      "description": "Local efetivo de funcionamento da urna."
+    },
+    {
+      "name": "st_secao_instalada",
+      "type": "bool",
+      "nullable": true
+    },
+    {
+      "name": "st_secao_anulada",
+      "type": "bool",
+      "nullable": true
+    },
+    {
+      "name": "ds_origem_voto",
+      "type": "string",
+      "nullable": true,
+      "description": "DS_ORIGEM_VOTO bruto (Urna Eletrônica, RED, Sistema de apuração, Totalização)."
+    },
+    {
+      "name": "flag_identidade_aptos",
+      "type": "bool",
+      "nullable": true,
+      "description": "True se a identidade de aptos fecha; nulo se algum termo ausente."
+    },
+    {
+      "name": "flag_identidade_comparecimento",
+      "type": "bool",
+      "nullable": true
+    },
+    {
+      "ref": "source_id"
+    }
+  ]
+}

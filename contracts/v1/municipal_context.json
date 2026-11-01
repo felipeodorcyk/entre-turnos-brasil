@@ -1,0 +1,58 @@
+{
+  "table": "municipal_context",
+  "version": "1.2.0",
+  "owner": "A",
+  "path": "data/staging/municipal_context.parquet",
+  "granularity": "município TSE × variável (formato longo)",
+  "primary_key": [
+    "sg_uf",
+    "cd_municipio_tse",
+    "variavel"
+  ],
+  "description": "Contexto municipal oficial, com fonte e ano de referência por linha. Só variáveis listadas em config/analysis.toml [context]. Exterior (ZZ) não recebe linhas. Contexto do município, não característica de eleitores.",
+  "columns": [
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "name": "cd_municipio_ibge",
+      "type": "string",
+      "nullable": false,
+      "pattern": "^[0-9]{7}$"
+    },
+    {
+      "name": "variavel",
+      "type": "string",
+      "nullable": false,
+      "pattern": "^[a-z0-9_]+$"
+    },
+    {
+      "name": "valor",
+      "type": "float64",
+      "nullable": true,
+      "description": "Ausente = nulo; nunca zero."
+    },
+    {
+      "name": "unidade",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "ano_referencia",
+      "type": "int16",
+      "nullable": false
+    },
+    {
+      "name": "fonte_url",
+      "type": "string",
+      "nullable": false,
+      "pattern": "https?://\\S+"
+    },
+    {
+      "ref": "source_id"
+    }
+  ]
+}

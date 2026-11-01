@@ -1,0 +1,22 @@
+{
+ "acesso": "2026-10-30",
+ "fonte": "IBGE API v3 malhas",
+ "resultados": [
+  {
+   "arquivo": "municipios_2022_intermediaria.geojson",
+   "bytes": 3768131,
+   "sha256": "cccb63a842b3d839031d675730a98730eee843073a89ac19a7f71d4f58400573",
+   "features": 5570,
+   "fonte_url": "https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?formato=application/vnd.geo%2Bjson&qualidade=intermediaria&intrarregiao=municipio",
+   "raw_sha256": "f9c7b5e2fc2f046190e161fd6db9573546832585bbae107cd0c318df02a9fdd7"
+  },
+  {
+   "arquivo": "ufs_2022.geojson",
+   "bytes": 251119,
+   "sha256": "38b7511fb58783af80089db49bc0bcda07ba6f8e662e7d963a3f0f4f7deaeed8",
+   "features": 27,
+   "fonte_url": "https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?formato=application/vnd.geo%2Bjson&qualidade=intermediaria&intrarregiao=UF",
+   "raw_sha256": "a4a93eb95024e70ed6fd614009aa4e2f880e76add2f55c7f818c540c22b61c23"
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+  "table": "panel_membership",
+  "version": "1.2.0",
+  "owner": "B",
+  "path": "data/analytics/panel_membership.parquet",
+  "granularity": "seção apuradora × turno, com a unidade do painel a que pertence",
+  "primary_key": [
+    "nr_turno",
+    "sg_uf",
+    "cd_municipio_tse",
+    "nr_zona",
+    "nr_secao"
+  ],
+  "description": "Produzido por br2026.panel junto com panel.parquet. Liga votos e horários por seção às unidades comparáveis, sem reler o grafo de correspondência.",
+  "columns": [
+    {
+      "ref": "nr_turno"
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "ref": "nr_secao"
+    },
+    {
+      "name": "id_unidade",
+      "type": "string",
+      "nullable": false
+    }
+  ]
+}

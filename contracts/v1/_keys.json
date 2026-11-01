@@ -1,0 +1,14 @@
+{
+  "description": "Colunas de identificação comuns. Identificadores são texto com zeros à esquerda; os arquivos do TSE os publicam sem preenchimento (verificado em detalhe_votacao_secao_2026_BR.csv: NR_ZONA com 1 a 3 dígitos), e a normalização preenche.",
+  "columns": {
+    "ano": {"type": "int16", "nullable": false, "enum": [2026], "description": "ANO_ELEICAO/AA_ELEICAO do conteúdo, nunca do nome do arquivo."},
+    "cd_eleicao": {"type": "string", "nullable": false, "pattern": "^[0-9]+$", "description": "CD_ELEICAO oficial; difere entre turnos (T1 2026 = 6257)."},
+    "nr_turno": {"type": "int8", "nullable": false, "enum": [1, 2]},
+    "sg_uf": {"type": "string", "nullable": false, "pattern": "^[A-Z]{2}$", "description": "UF; ZZ = exterior."},
+    "cd_municipio_tse": {"type": "string", "nullable": false, "pattern": "^[0-9]{5}$"},
+    "nr_zona": {"type": "string", "nullable": false, "pattern": "^[0-9]{4}$"},
+    "nr_secao": {"type": "string", "nullable": false, "pattern": "^[0-9]{4}$", "description": "Seção de origem (cadastral)."},
+    "cd_cargo": {"type": "int16", "nullable": false, "description": "1 = Presidente."},
+    "source_id": {"type": "string", "nullable": false, "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 do arquivo bruto no manifesto."}
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "table": "section_crosswalk",
+  "version": "1.2.0",
+  "owner": "A",
+  "path": "data/staging/section_crosswalk.parquet",
+  "granularity": "seção de origem × turno",
+  "primary_key": [
+    "ano",
+    "nr_turno",
+    "sg_uf",
+    "cd_municipio_tse",
+    "nr_zona",
+    "nr_secao",
+    "status_correspondencia"
+  ],
+  "description": "Correspondência seção de origem → seção apuradora. Fontes: eleitorado_local_votacao (CD_TIPO_SECAO_AGREGADA, NR_SECAO_PRINCIPAL, NR_LOCAL_VOTACAO_ORIGINAL) e secoes_agregadas do turno. Sem distribuição proporcional de votos. Uma seção pode ter linha ESPERADA e linha EFETIVADA no mesmo turno.",
+  "columns": [
+    {
+      "ref": "ano"
+    },
+    {
+      "ref": "nr_turno"
+    },
+    {
+      "ref": "sg_uf"
+    },
+    {
+      "ref": "cd_municipio_tse"
+    },
+    {
+      "ref": "nr_zona"
+    },
+    {
+      "ref": "nr_secao"
+    },
+    {
+      "name": "nr_secao_apuradora",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9]{4}$",
+      "description": "Seção cuja urna contabilizou os votos desta; nula se não apurada."
+    },
+    {
+      "name": "nr_local_votacao",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9]{4}$",
+      "description": "Local efetivo."
+    },
+    {
+      "name": "nr_local_votacao_original",
+      "type": "string",
+      "nullable": true,
+      "pattern": "^[0-9]{4}$"
+    },
+    {
+      "name": "tipo_correspondencia",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "PROPRIA",
+        "AGREGADA_EM_OUTRA",
+        "PRINCIPAL_COM_AGREGADAS",
+        "SEM_APURACAO",
+        "AMBIGUA"
+      ]
+    },
+    {
+      "name": "status_correspondencia",
+      "type": "string",
+      "nullable": false,
+      "enum": [
+        "EFETIVADA",
+        "ESPERADA"
+      ],
+      "description": "EFETIVADA: vínculo apoiado em registro do próprio turno. Fontes, em ordem: DS_SECOES_AGREGADAS do BU web (fonte bweb:DS_SECOES_AGREGADAS); sem BU web, presença das apuradoras na CEFT do turno (ceft+eleitorado_local_votacao) ou no detalhe de votação do turno (detalhe+eleitorado_local_votacao, decisão D-T2-01, v1.2), com a agregação do eleitorado aceita só se a agregada não tem apuração própria no turno e a principal esperada tem; conflito vira AMBIGUA. ESPERADA: eleitorado/CESP, nunca usada pelo painel. A coluna fonte identifica a origem de cada linha."
+    },
+    {
+      "name": "fonte",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "justificativa",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "flag_ambigua",
+      "type": "bool",
+      "nullable": false
+    },
+    {
+      "ref": "source_id"
+    }
+  ]
+}
