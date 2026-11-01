@@ -1,12 +1,12 @@
 # Entre Turnos Brasil
 
-Exploração pública das mudanças entre o 1º e o 2º turno das eleições presidenciais de2026. Criado por [Felipe Odorcyk](https://www.linkedin.com/in/felipe-odorcyk/).
+Exploração pública das mudanças entre o 1º e o 2º turno das eleições presidenciais de 2026. Criado por [Felipe Odorcyk](https://www.linkedin.com/in/felipe-odorcyk/).
 
 [Aplicativo publicado](https://spring-fire-4ff2.felipe-odorcyk.workers.dev/) · [Contato pelo LinkedIn](https://www.linkedin.com/in/felipe-odorcyk/)
 
 ## Rodar o dashboard
 
-Node.js24 e npm. Os snapshots agregados necessários estão incluídos; não precisa de chave de API.
+Node.js 24 e npm. Os snapshots agregados necessários estão incluídos; não precisa de chave de API.
 
 ```sh
 cd web
@@ -22,7 +22,7 @@ Abra o endereço mostrado pelo Vite. A raiz abre o Explorer; `?view=legacy` abre
 
 TSE: resultados eleitorais. IBGE: renda/urbanização/população e VAB. MTE/RAIS: vínculos formais. MDS: registros do Bolsa Família. Datas e unidades aparecem na metodologia do app e nos manifestos. Percentuais calculados depois de somar contagens. Os quintis municipais são nacionais, fixos e sem peso eleitoral. Associações municipais não identificam voto individual ou transferência entre candidatos.
 
-Esta publicação inclui código da análise e frontend, testes e snapshots municipais agregados. Exclui microdados brutos, ambiente local e documentos internos. O entorno fixo de1km é descrito na metodologia, mas ainda não integra os filtros do dashboard. Não se deve atribuir essa escala aos indicadores municipais.
+Esta publicação inclui código da análise e frontend, testes e snapshots municipais agregados. Exclui microdados brutos, ambiente local e documentos internos. O entorno fixo de 1 km é descrito na metodologia, mas ainda não integra os filtros do dashboard. Não se deve atribuir essa escala aos indicadores municipais.
 
 ## Reprodução científica
 
@@ -30,4 +30,8 @@ Pipeline Python em src e tools; dependências em pyproject.toml e requirements.l
 
 ## Transparência e uso
 
-Código publicado para consulta e auditoria. Não foi escolhida licença de software nesta entrega; publicação pública não concede automaticamente uma licença de redistribuição. Fontes de dados mantêm seus próprios termos. Créditos não representam endosso das instituições. Não inclui credenciais ou dados pessoais de beneficiários; os arquivos publicados são agregados.
+Código original e documentação do projeto sob a [licença MIT](LICENSE). Dados, malhas e dependências de terceiros mantêm seus próprios termos; consulte [fontes e atribuições](docs/FONTES_E_ATRIBUICOES.md). Créditos não representam endosso das instituições. Não inclui credenciais ou dados pessoais de beneficiários; os arquivos publicados são agregados.
+
+## Versão estável
+
+Dashboard v1.0.0. Veja [notas da versão](CHANGELOG.md) e [publicação, atualização e rollback](docs/OPERACAO.md). A versão do pipeline Python é independente da versão do dashboard.

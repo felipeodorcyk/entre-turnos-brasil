@@ -418,7 +418,7 @@ export default function MapView({ inspectMode = false, granularity="municipal", 
 
       <div className="map-footer">
         <p>
-          Malha: IBGE, API de malhas, municípios 2022, qualidade intermediária. Licença e atribuição a confirmar
+          Malha: IBGE, API de malhas, qualidade intermediária, snapshot de 30/10/2026. Fonte: IBGE
           antes de publicação externa.
         </p>
         {missingGeometry.length > 0 && (
@@ -442,3 +442,4 @@ export default function MapView({ inspectMode = false, granularity="municipal", 
     </section>
   );
 }
+
