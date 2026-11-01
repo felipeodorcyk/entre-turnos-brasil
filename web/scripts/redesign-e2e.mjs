@@ -1,3 +1,5 @@
+import {mkdirSync as ensureEvidenceDirectory} from "node:fs";
+ensureEvidenceDirectory("../docs/webapp/evidence",{recursive:true});
 import {chromium} from "playwright";import assert from "node:assert/strict";
 const browser=await chromium.launch({channel:"chrome",headless:true});
 try {for(const width of [1440,768,390,360]){

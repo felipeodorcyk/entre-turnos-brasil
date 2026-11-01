@@ -1,3 +1,5 @@
+import {mkdirSync as ensureEvidenceDirectory} from "node:fs";
+ensureEvidenceDirectory("../docs/webapp/evidence",{recursive:true});
 import {chromium} from "playwright";import assert from "node:assert/strict";import {readFileSync,writeFileSync} from "node:fs";
 const b=await chromium.launch({channel:"chrome",headless:true});const results=[];
 try{for(const width of [1440,768,390,360]){const p=await b.newPage({viewport:{width,height:1000}});const errors=[];p.on("pageerror",e=>errors.push(e.message));await p.goto(`${process.env.APP_URL??"http://127.0.0.1:4182"}/?view=explore`);await p.locator("#perspectives").waitFor();await p.locator("#perspectives").getByRole("button",{name:"Renda",exact:true}).click();const before=await p.locator(".profile-group").allTextContents();await p.locator(".group-choices button").nth(1).click();assert.deepEqual(await p.locator(".profile-group").allTextContents(),before);assert.ok(await p.locator(".vote-detail").innerText());

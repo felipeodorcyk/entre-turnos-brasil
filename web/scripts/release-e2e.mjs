@@ -1,3 +1,5 @@
+import {mkdirSync as ensureEvidenceDirectory} from "node:fs";
+ensureEvidenceDirectory("../docs/webapp/evidence",{recursive:true});
 import {chromium} from "playwright";import assert from "node:assert/strict";import {readFileSync,writeFileSync} from "node:fs";
 const origin=process.env.APP_URL??"http://127.0.0.1:4186";const b=await chromium.launch({channel:"chrome"});const p=await b.newPage({viewport:{width:720,height:900},reducedMotion:"reduce"});const evidence=[];
 async function axe(label){await p.addScriptTag({content:readFileSync("node_modules/axe-core/axe.min.js","utf8")});const r=await p.evaluate(()=>axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa"]}}));evidence.push({label,violations:r.violations.map(v=>({id:v.id,count:v.nodes.length}))});if(r.violations.length)console.log(JSON.stringify(r.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))));assert.equal(r.violations.length,0,label);}
