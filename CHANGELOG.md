@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## Dashboard 1.0.1 — 01/11/2026
+
+Nova chamada: “Como Lula virou a eleição no segundo turno?”. Subtítulo destaca as comparações por região, renda, emprego, Bolsa Família e perfil municipal. Título da aba e descrição da página atualizados. Dados e cálculos permanecem iguais.
+
 ## Dashboard 1.0.0 — 01/11/2026
 
 - Exploração territorial das mudanças entre o 1º e o 2º turno, com mapas regional, estadual e municipal.

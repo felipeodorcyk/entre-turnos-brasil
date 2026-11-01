@@ -34,4 +34,4 @@ Código original e documentação do projeto sob a [licença MIT](LICENSE). Dado
 
 ## Versão estável
 
-Dashboard v1.0.0. Veja [notas da versão](CHANGELOG.md) e [publicação, atualização e rollback](docs/OPERACAO.md). A versão do pipeline Python é independente da versão do dashboard.
+Dashboard v1.0.1. Veja [notas da versão](CHANGELOG.md) e [publicação, atualização e rollback](docs/OPERACAO.md). A versão do pipeline Python é independente da versão do dashboard.
