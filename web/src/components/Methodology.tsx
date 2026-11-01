@@ -117,7 +117,7 @@ export default function Methodology({ agg, nacional, dicionario, manifest, relea
           <li>Totais oficiais: TSE, Relatório de Resultado da Totalização 2026 (28 unidades, inclui exterior).</li>
           <li>Socioeconômicos: IBGE Censo 2022 (SIDRA 10295, 10296, 6580, 9923); MTE RAIS 31/12/2025; MDS/PBF 08/2026.</li>
           <li>Nomes: IBGE, API de localidades, municípios 2022. Reconciliados por código, nunca por nome.</li>
-          <li>Malha: IBGE, API de malhas, qualidade intermediária, snapshot de 30/10/2026. URLs e hashes no manifesto da malha; o nome do arquivo não comprova sua edição temporal.</li>
+          <li>Malha: IBGE, API de malhas, qualidade intermediária, snapshot de 30/10/2026. URLs e hashes no manifesto da malha; o nome do arquivo não comprova sua edição temporal.</li>
         </ul>
         <p>
           O release <code>{releaseId}</code> (schema <code>{schemaVersion}</code>) foi gerado em{" "}
@@ -176,5 +176,4 @@ export default function Methodology({ agg, nacional, dicionario, manifest, relea
       </section>
     </div>
   );
-}
-
+}

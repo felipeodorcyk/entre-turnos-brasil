@@ -442,4 +442,3 @@ export default function MapView({ inspectMode = false, granularity="municipal", 
     </section>
   );
 }
-
